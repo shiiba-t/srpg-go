@@ -1,20 +1,45 @@
-name: test
+name: CI
+
+# イベントトリガーの設定
 on:
+  # ブランチがpushされたタイミングで実行
   push:
-  pull_request:
+  # プルリクエストした時に実行
+  # TODO: 複数人開発するときはこっちにしたい
+  # pull_request:
+
+# 実行するジョブの設定
 jobs:
-  golangci:
+  test:
     strategy:
       matrix:
-        go-version: [1.17.5]
-        os: [windows-latest]
-    name: lint
+        # 実行するOSを指定する
+        os: [windows-latest, ubuntu-latest, macos-latest]
+
+    # 実行環境の構築
     runs-on: ${{ matrix.os }}
+
+    # タスクの実行
+    name: Lint & Test
     steps:
-      - uses: actions/checkout@v2
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2
+      # レポジトリからソースコードを取得する
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Goの実行環境を準備する
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          # TODO: 1.18.x でgolangci-lingが通るようにできたらバージョンを上げる
+          # 実行するgoのバージョンを指定する
+          go-version: '1.17.12'
+
+      # golangci-lintを使って静的解析を実行
+      - name: Lint
+        uses: golangci/golangci-lint-action@v3
         with:
           version: latest
-      - name: testing
-        run: go test
+
+      # テスト実行
+      - name: Testing
+        run: go test -v ./...
