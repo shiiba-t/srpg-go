@@ -30,8 +30,8 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          # TODO: 1.18.x でgolangci-lingが通るようにできたらバージョンを上げる
           # 実行するgoのバージョンを指定する
+          # TODO: 1.18.x でgolangci-lingが通るようにできたらバージョンを上げる
           go-version: '1.17.12'
 
       # golangci-lintを使って静的解析を実行
