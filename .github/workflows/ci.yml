@@ -2,22 +2,14 @@ name: CI
 
 # イベントトリガーの設定
 on:
-  # ブランチがpushされたタイミングで実行
-  push:
   # プルリクエストした時に実行
-  # TODO: 複数人開発するときはこっちにしたい
-  # pull_request:
+  pull_request:
 
 # 実行するジョブの設定
 jobs:
   test:
-    strategy:
-      matrix:
-        # 実行するOSを指定する
-        os: [windows-latest, ubuntu-latest, macos-latest]
-
     # 実行環境の構築
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     # タスクの実行
     name: Lint & Test
