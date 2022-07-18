@@ -2,6 +2,10 @@ name: CI
 
 # イベントトリガーの設定
 on:
+  # メインブランチへプッシュしたときに実行
+  push:
+    branches:
+      - main
   # プルリクエストした時に実行
   pull_request:
 
